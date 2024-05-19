@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Lux Value</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        #lux-value {
+            font-size: 2em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Current Lux Value</h1>
+    <div id="lux-value">Loading...</div>
+
+    <script>
+        function fetchLux() {
+            fetch('/latest_lux')
+                .then(response => response.json())
+                .then(data => {
+                    document.body.style.backgroundColor = data.color;
+                    document.getElementById('lux-value').innerText = `Lux: ${data.lux}`;
+                })
+                .catch(error => console.error('Error fetching lux value:', error));
+        }
+
+        // Fetch lux value every 200 milliseconds
+        setInterval(fetchLux, 200);
+
+        // Initial fetch
+        fetchLux();
+    </script>
+</body>
+</html>
